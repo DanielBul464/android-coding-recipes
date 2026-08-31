@@ -1,24 +1,47 @@
-# Gradle files
+# Default Git
+local.properties
+/app/cert/sign.properties
+captures/
+.externalNativeBuild
+
+# Build application files
 .gradle/
 build/
 
-# Local configuration file (sdk path, etc)
-local.properties
+# OS-specific files
+../DS_Store
+../DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+releasenotes.txt
 
-# Log/OS Files
-*.log
+# Generated files
+bin/
+gen/
+out/
 
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
+# Built application files
+*.apk*
+*.aar
+*.ap_
 *.aab
-*.apk
+*.dm
 output-metadata.json
 
-# IntelliJ
+# Files for the ART/Dalvik VM
+*.dex
+
+# Java class files
+*.class
+
+# Log Files
+*.log
+
+# Android Studio
 *.iml
 .idea/
+.cxx/
 misc.xml
 deploymentTargetDropDown.xml
 render.experimental.xml
@@ -32,3 +55,49 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+.directory
+
+# Kotlin
+*.kotlin_module
+.kotlin
+
+# Kapt
+kapt3/
+
+# Annotation Processors
+.apt_generated/
+
+# Lint
+lint/intermediates/
+lint/generated/
+lint/outputs/
+lint/tmp/
+
+# Navigation
+.navigation/
+
+# VCS
+vcs.xml
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# Backup files
+*.backup
+*.bak
