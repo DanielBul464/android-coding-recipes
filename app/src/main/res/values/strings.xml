@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Android Coding Recipes</string>
+    <string name="recipes_placeholder">Small, practical Android samples.\nThe first recipe is coming soon.</string>
+</resources>
