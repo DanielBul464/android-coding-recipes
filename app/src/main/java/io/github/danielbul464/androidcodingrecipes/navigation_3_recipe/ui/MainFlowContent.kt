@@ -21,6 +21,7 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.TopLevelRoute
 import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.multi_back_stack.BackStackPolicy
+import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.multi_back_stack.LocalMultiBackStackNavigator
 import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.multi_back_stack.rememberMultiBackStackNavigationState
 import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.multi_back_stack.rememberMultiBackStackNavigator
 
@@ -30,14 +31,16 @@ fun MainFlowContent(
     mainFlowViewModel: MainFlowViewModel = viewModel(),
 ) {
     val topLevelRoutes = remember(mainFlowViewModel) {
-        mainFlowViewModel.tabs.mapTo(mutableSetOf()) { tab -> tab.route }
+        mainFlowViewModel.allTabs.mapTo(mutableSetOf()) { tab -> tab.route }
     }
     val navigationState = rememberMultiBackStackNavigationState(
         startRoute = AppTabBarItem.Home.route,
         topLevelRoutes = topLevelRoutes,
     )
     val navigator = rememberMultiBackStackNavigator(navigationState)
-    val entryProvider = remember { mainFlowEntryProvider() }
+    val entryProvider = remember(mainFlowViewModel) {
+        mainFlowEntryProvider(mainFlowViewModel)
+    }
     val entries = navigationState.toDecoratedEntries(
         multiBackStackNavigator = navigator,
         entryProvider = entryProvider,
@@ -82,44 +85,99 @@ fun MainFlowContent(
     }
 }
 
-private fun mainFlowEntryProvider(): (NavKey) -> NavEntry<NavKey> =
+private fun mainFlowEntryProvider(
+    mainFlowViewModel: MainFlowViewModel,
+): (NavKey) -> NavEntry<NavKey> =
     entryProvider {
         entry<MainFlowDestination.Home1> {
-            MainFlowScreen("Home 1")
+            val navigator = LocalMultiBackStackNavigator.current
+            MainFlowScreen(
+                buttonText = "Open Home 2",
+                onButtonClick = {
+                    navigator.navigate(MainFlowDestination.Home2)
+                },
+            )
         }
 
         entry<MainFlowDestination.Home2> {
-            MainFlowScreen("Home 2")
+            val navigator = LocalMultiBackStackNavigator.current
+            MainFlowScreen(
+                buttonText = "Back to Home 1",
+                onButtonClick = navigator::goBack,
+            )
         }
 
         entry<MainFlowDestination.Catalog1> {
-            MainFlowScreen("Catalog 1")
+            val navigator = LocalMultiBackStackNavigator.current
+            MainFlowScreen(
+                buttonText = "Open Catalog 2",
+                onButtonClick = {
+                    navigator.navigate(MainFlowDestination.Catalog2)
+                },
+            )
         }
 
         entry<MainFlowDestination.Catalog2> {
-            MainFlowScreen("Catalog 2")
+            val navigator = LocalMultiBackStackNavigator.current
+            MainFlowScreen(
+                buttonText = "Back to Catalog 1",
+                onButtonClick = navigator::goBack,
+            )
         }
 
         entry<MainFlowDestination.Login1> {
-            MainFlowScreen("Login 1")
+            val navigator = LocalMultiBackStackNavigator.current
+            MainFlowScreen(
+                buttonText = "Open Login 2",
+                onButtonClick = {
+                    navigator.navigate(MainFlowDestination.Login2)
+                },
+            )
         }
 
         entry<MainFlowDestination.Login2> {
-            MainFlowScreen("Login 2")
+            val navigator = LocalMultiBackStackNavigator.current
+            MainFlowScreen(
+                buttonText = "Log in",
+                onButtonClick = {
+                    mainFlowViewModel.logIn()
+                    navigator.navigate(
+                        route = AppTabBarItem.Profile.createRoute(),
+                        backStackPolicy = BackStackPolicy.Recreate,
+                    )
+                },
+            )
         }
 
         entry<MainFlowDestination.Profile1> {
-            MainFlowScreen("Profile 1")
+            val navigator = LocalMultiBackStackNavigator.current
+            MainFlowScreen(
+                buttonText = "Open Profile 2",
+                onButtonClick = {
+                    navigator.navigate(MainFlowDestination.Profile2)
+                },
+            )
         }
 
         entry<MainFlowDestination.Profile2> {
-            MainFlowScreen("Profile 2")
+            val navigator = LocalMultiBackStackNavigator.current
+            MainFlowScreen(
+                buttonText = "Log out",
+                onButtonClick = {
+                    mainFlowViewModel.logOut()
+                    navigator.navigate(
+                        route = AppTabBarItem.Login.createRoute(),
+                        backStackPolicy = BackStackPolicy.Recreate,
+                    )
+                },
+            )
         }
     }
 
 @Composable
 private fun MainFlowScreen(
-    name: String,
+    buttonText: String,
+    onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -128,8 +186,8 @@ private fun MainFlowScreen(
             .background(colorScheme.background),
         contentAlignment = Alignment.Center,
     ) {
-        Button(onClick = { TODO("Navigate from $name") }) {
-            Text(text = name)
+        Button(onClick = onButtonClick) {
+            Text(text = buttonText)
         }
     }
 }
