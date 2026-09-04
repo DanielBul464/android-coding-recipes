@@ -15,17 +15,21 @@ import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
+import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.app_navigator.rememberAppNavigator
+import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.app_navigator.rememberAppNavigatorNavEntryDecorator
 
 @Composable
 fun AppContent(modifier: Modifier = Modifier) {
     val backStack = rememberNavBackStack(AppDestination.CustomSplash)
+    val appNavigator = rememberAppNavigator(backStack)
 
     NavDisplay(
-        backStack = backStack,
+        backStack = appNavigator.backStack,
         modifier = modifier.fillMaxSize(),
-        onBack = { TODO("Handle back navigation") },
+        onBack = appNavigator::goBack,
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
+            rememberAppNavigatorNavEntryDecorator(appNavigator),
             rememberViewModelStoreNavEntryDecorator(),
         ),
         entryProvider = entryProvider {
