@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,53 +16,66 @@ import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
 import androidx.navigation3.ui.NavDisplay
 
 @Composable
-fun AppContent(modifier: Modifier = Modifier) {
-    val backStack = rememberNavBackStack(AppDestination.CustomSplash)
+fun MainFlowContent(modifier: Modifier = Modifier) {
+    val backStack = rememberNavBackStack(MainFlowDestination.Home1)
 
     NavDisplay(
         backStack = backStack,
         modifier = modifier.fillMaxSize(),
-        onBack = { TODO("Handle back navigation") },
+        onBack = { TODO("Handle main flow back navigation") },
         entryDecorators = listOf(
             rememberSaveableStateHolderNavEntryDecorator(),
             rememberViewModelStoreNavEntryDecorator(),
         ),
         entryProvider = entryProvider {
-            entry<AppDestination.CustomSplash> {
-                RecipeScreen(
-                    buttonText = "Open onboarding",
-                    onButtonClick = { TODO("Navigate to onboarding") },
-                )
+            entry<MainFlowDestination.Home1> {
+                MainFlowScreen("Home 1")
             }
 
-            entry<AppDestination.Onboarding> {
-                RecipeScreen(
-                    buttonText = "Open main flow",
-                    onButtonClick = { TODO("Navigate to the main flow") },
-                )
+            entry<MainFlowDestination.Home2> {
+                MainFlowScreen("Home 2")
             }
 
-            entry<AppDestination.MainFlow> {
-                MainFlowContent()
+            entry<MainFlowDestination.Catalog1> {
+                MainFlowScreen("Catalog 1")
+            }
+
+            entry<MainFlowDestination.Catalog2> {
+                MainFlowScreen("Catalog 2")
+            }
+
+            entry<MainFlowDestination.Login1> {
+                MainFlowScreen("Login 1")
+            }
+
+            entry<MainFlowDestination.Login2> {
+                MainFlowScreen("Login 2")
+            }
+
+            entry<MainFlowDestination.Profile1> {
+                MainFlowScreen("Profile 1")
+            }
+
+            entry<MainFlowDestination.Profile2> {
+                MainFlowScreen("Profile 2")
             }
         },
     )
 }
 
 @Composable
-private fun RecipeScreen(
-    buttonText: String,
-    onButtonClick: () -> Unit,
+private fun MainFlowScreen(
+    name: String,
     modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(colorScheme.background),
+            .background(Color.White),
         contentAlignment = Alignment.Center,
     ) {
-        Button(onClick = onButtonClick) {
-            Text(text = buttonText)
+        Button(onClick = { TODO("Navigate from $name") }) {
+            Text(text = name)
         }
     }
 }
