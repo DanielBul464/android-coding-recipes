@@ -3,33 +3,37 @@ package io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation3.runtime.NavEntry
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.ui.NavDisplay
 import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.TopLevelRoute
+import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.multi_back_stack.BackStackPolicy
 import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.multi_back_stack.rememberMultiBackStackNavigationState
 import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.multi_back_stack.rememberMultiBackStackNavigator
 
 @Composable
-fun MainFlowContent(modifier: Modifier = Modifier) {
-    val topLevelRoutes = remember {
-        setOf<TopLevelRoute>(
-            MainFlowDestination.Home1,
-            MainFlowDestination.Catalog1,
-            MainFlowDestination.Login1,
-            MainFlowDestination.Profile1,
-        )
+fun MainFlowContent(
+    modifier: Modifier = Modifier,
+    mainFlowViewModel: MainFlowViewModel = viewModel(),
+) {
+    val topLevelRoutes = remember(mainFlowViewModel) {
+        mainFlowViewModel.tabs.mapTo(mutableSetOf()) { tab -> tab.route }
     }
     val navigationState = rememberMultiBackStackNavigationState(
-        startRoute = MainFlowDestination.Home1,
+        startRoute = AppTabBarItem.Home.route,
         topLevelRoutes = topLevelRoutes,
     )
     val navigator = rememberMultiBackStackNavigator(navigationState)
@@ -38,12 +42,44 @@ fun MainFlowContent(modifier: Modifier = Modifier) {
         multiBackStackNavigator = navigator,
         entryProvider = entryProvider,
     )
+    val selectedTab = mainFlowViewModel.tabs.firstOrNull { tab ->
+        tab.route::class == navigationState.topLevelRoute::class
+    }
 
-    NavDisplay(
-        entries = entries,
+    Scaffold(
         modifier = modifier.fillMaxSize(),
-        onBack = navigator::goBack,
-    )
+        containerColor = colorScheme.background,
+        bottomBar = {
+            NavigationBar {
+                mainFlowViewModel.tabs.forEach { tab ->
+                    val isSelected = tab == selectedTab
+                    NavigationBarItem(
+                        selected = isSelected,
+                        onClick = {
+                            navigator.navigate(
+                                route = tab.route,
+                                backStackPolicy = if (isSelected) {
+                                    BackStackPolicy.PopToRoot
+                                } else {
+                                    BackStackPolicy.Preserve
+                                },
+                            )
+                        },
+                        icon = { Text(text = tab.label.take(1)) },
+                        label = { Text(text = tab.label) },
+                    )
+                }
+            }
+        },
+    ) { innerPadding ->
+        NavDisplay(
+            entries = entries,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding),
+            onBack = navigator::goBack,
+        )
+    }
 }
 
 private fun mainFlowEntryProvider(): (NavKey) -> NavEntry<NavKey> =
@@ -89,7 +125,7 @@ private fun MainFlowScreen(
     Box(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White),
+            .background(colorScheme.background),
         contentAlignment = Alignment.Center,
     ) {
         Button(onClick = { TODO("Navigate from $name") }) {
