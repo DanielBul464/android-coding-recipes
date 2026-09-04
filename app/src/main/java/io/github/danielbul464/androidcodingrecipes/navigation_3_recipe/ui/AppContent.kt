@@ -35,14 +35,14 @@ fun AppContent(modifier: Modifier = Modifier) {
             entry<AppDestination.CustomSplash> {
                 AppFlowScreen(
                     buttonText = "Open onboarding",
-                    onButtonClick = { TODO("Navigate to onboarding") },
+                    onButtonClick = { appNavigator.newRootScreen(AppDestination.Onboarding) },
                 )
             }
 
             entry<AppDestination.Onboarding> {
                 AppFlowScreen(
                     buttonText = "Open main flow",
-                    onButtonClick = { TODO("Navigate to the main flow") },
+                    onButtonClick = { appNavigator.newRootScreen(AppDestination.MainFlow) },
                 )
             }
 
