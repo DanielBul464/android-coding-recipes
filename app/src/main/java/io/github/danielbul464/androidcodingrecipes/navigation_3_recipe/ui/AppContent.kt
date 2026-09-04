@@ -9,7 +9,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
@@ -34,14 +33,14 @@ fun AppContent(modifier: Modifier = Modifier) {
         ),
         entryProvider = entryProvider {
             entry<AppDestination.CustomSplash> {
-                RecipeScreen(
+                AppFlowScreen(
                     buttonText = "Open onboarding",
                     onButtonClick = { TODO("Navigate to onboarding") },
                 )
             }
 
             entry<AppDestination.Onboarding> {
-                RecipeScreen(
+                AppFlowScreen(
                     buttonText = "Open main flow",
                     onButtonClick = { TODO("Navigate to the main flow") },
                 )
@@ -55,7 +54,7 @@ fun AppContent(modifier: Modifier = Modifier) {
 }
 
 @Composable
-private fun RecipeScreen(
+private fun AppFlowScreen(
     buttonText: String,
     onButtonClick: () -> Unit,
     modifier: Modifier = Modifier,
