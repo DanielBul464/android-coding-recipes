@@ -1,4 +1,4 @@
-package io.github.danielbul464.androidcodingrecipes.ui.theme
+package io.github.danielbul464.androidcodingrecipes.presentation
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

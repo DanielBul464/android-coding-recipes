@@ -4,8 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import io.github.danielbul464.androidcodingrecipes.ui.AppContent
-import io.github.danielbul464.androidcodingrecipes.ui.theme.AndroidRecipesTheme
+import io.github.danielbul464.androidcodingrecipes.navigation_3_recipe.ui.AppContent
+import io.github.danielbul464.androidcodingrecipes.presentation.AndroidRecipesTheme
 
 class MainActivity : ComponentActivity() {
 
