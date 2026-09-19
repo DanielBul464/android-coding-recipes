@@ -35,6 +35,7 @@ java {
 
 dependencies {
     implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.core.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.foundation.layout)
@@ -44,6 +45,8 @@ dependencies {
     implementation(libs.androidx.navigation3.lifecycle.viewmodel)
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.ui.compose)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
