@@ -46,7 +46,10 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.database)
+    implementation(libs.androidx.media3.datasource)
     implementation(libs.androidx.media3.ui.compose)
+    implementation(libs.kotlinx.coroutines.android)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
 }
