@@ -14,6 +14,7 @@ import io.github.danielbul464.androidcodingrecipes.exo_player.core.domain.VideoP
 import io.github.danielbul464.androidcodingrecipes.exo_player.core.domain.VideoPlayerRepeatMode
 import io.github.danielbul464.androidcodingrecipes.exo_player.core.domain.VideoPlayerSeekMode
 import io.github.danielbul464.androidcodingrecipes.exo_player.core.performance.VideoPlaybackAnalyticsConfig
+import io.github.danielbul464.androidcodingrecipes.exo_player.core.performance.VideoPlaybackMetrics
 import io.github.danielbul464.androidcodingrecipes.exo_player.core.performance.createPlaybackStatsListener
 
 @OptIn(UnstableApi::class)
@@ -135,11 +136,13 @@ class VideoPlayerBuilder(private val context: Context) {
     fun setPlaybackAnalyticsEnabled(
         enabled: Boolean,
         tag: String = VideoPlaybackAnalyticsConfig.DEFAULT_TAG,
+        onMetricsChanged: ((VideoPlaybackMetrics) -> Unit)? = null,
     ) = apply {
         playbackAnalyticsConfig =
             VideoPlaybackAnalyticsConfig(
                 isEnabled = enabled,
                 tag = tag,
+                onMetricsChanged = onMetricsChanged,
             )
     }
 

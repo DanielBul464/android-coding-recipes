@@ -17,6 +17,7 @@ internal fun createPlaybackStatsListener(
     return PlaybackStatsListener(/* keepHistory = */ false) { _, playbackStats ->
         val metrics = playbackStats.toVideoPlaybackMetrics(config.tag)
         Log.d(metrics.tag, metrics.toLogMessage())
+        config.onMetricsChanged?.invoke(metrics)
     }
 }
 
