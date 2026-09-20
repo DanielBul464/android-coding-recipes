@@ -2,4 +2,6 @@
 <resources>
     <string name="app_name">Android Coding Recipes</string>
     <string name="recipes_placeholder">Small, practical Android samples.\nThe first recipe is coming soon.</string>
+    <string name="video_cache_first_frame">With cache — first frame: %1$s ms</string>
+    <string name="video_network_first_frame">Without cache — first frame: %1$s ms</string>
 </resources>
